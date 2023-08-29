@@ -10,5 +10,7 @@ export interface Todo {
   userId: string;
   createdAt: string;
   updatedAt: string;
-  user: User;
+  privacy: string;
+  searchKey?: string[];
+  creator?: string;
 }

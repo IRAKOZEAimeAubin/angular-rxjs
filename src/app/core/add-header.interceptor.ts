@@ -20,7 +20,7 @@ export class AddHeaderInterceptor implements HttpInterceptor {
     let jsonReq: HttpRequest<any> = request.clone({
       setHeaders: {
         Authorization:
-          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1YzVhMjZkYy01N2Y3LTRjNjctYjRmZi1mN2M3YWFhMDY2MDkiLCJpYXQiOjE2OTI5NTUzNDcsImV4cCI6MTY5MzA0MTc0N30.yqWDl_nNWqgwdWAxfD9bmaTB7g2ube06yAm1kIHTdsY',
+          'Bearer',
       },
     });
 

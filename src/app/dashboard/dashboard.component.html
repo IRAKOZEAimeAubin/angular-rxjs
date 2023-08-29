@@ -1,3 +1,18 @@
-<div *ngIf="allTodos$ | async as allTodos">
-    
+<div
+  class="flex flex-col gap-3 max-w-full mt-5"
+  *ngIf="allTodos$ | async as allTodos"
+>
+  <div
+    class="mx-auto shadow hover:shadow-lg rounded p-3 w-[400px] text-center"
+    *ngFor="let todo of allTodos"
+    [ngClass]="todo.status.toLowerCase()"
+  >
+    <h1 class="font-bold text-lg">{{ todo.title }}</h1>
+    <span class="text-xs font-semibold bg-blue-200 p-[2px] rounded">@{{todo.creator}}</span>
+    <p class="text-sm">{{ todo.description }}</p>
+    <!-- <div class="flex justify-between text-xs">
+      <span class="bg-slate-300 p-[2px] rounded font-medium">{{ todo.privacy | uppercase }}</span>
+    </div> -->
+    <span class="text-xs">Last updated at: {{ todo.updatedAt }}</span>
+  </div>
 </div>

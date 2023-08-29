@@ -10,7 +10,7 @@ import { TodoError } from 'src/types/todoError';
   styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent {
-  allTodos$ = this.dataService.allTodos$.pipe(
+  allTodos$ = this.dataService.todosWithUsers$.pipe(
     catchError((err) => {
       this.errorMessage = err;
       return EMPTY;
