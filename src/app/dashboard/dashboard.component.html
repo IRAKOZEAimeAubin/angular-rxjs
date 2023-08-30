@@ -2,17 +2,39 @@
   class="flex flex-col gap-3 max-w-full mt-5"
   *ngIf="allTodos$ | async as allTodos"
 >
+  <div class="w-[400px] self-center">
+    <label for="users" class="block mb-2 text-sm font-medium"
+      >Select user</label
+    >
+    <select
+      id="users"
+      class="bg-gray-50 border-2 border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 outline-none"
+      (change)="onSelected($any($event.target).value)"
+    >
+      <option value="">-Display All-</option>
+      <option *ngFor="let user of allUsers$ | async" [value]="user.id">
+        {{ user.name }}
+      </option>
+    </select>
+  </div>
+
   <div
     class="mx-auto shadow hover:shadow-lg rounded p-3 w-[400px] text-center"
     *ngFor="let todo of allTodos"
     [ngClass]="todo.status.toLowerCase()"
+    (click)="onSelectedSingle(todo.todoId)"
   >
     <h1 class="font-bold text-lg">{{ todo.title }}</h1>
-    <span class="text-xs font-semibold bg-blue-200 p-[2px] rounded">@{{todo.creator}}</span>
+    <span class="text-xs font-semibold bg-blue-200 p-[2px] rounded"
+      >@{{ todo.creator }}</span
+    >
     <p class="text-sm">{{ todo.description }}</p>
-    <!-- <div class="flex justify-between text-xs">
-      <span class="bg-slate-300 p-[2px] rounded font-medium">{{ todo.privacy | uppercase }}</span>
-    </div> -->
     <span class="text-xs">Last updated at: {{ todo.updatedAt }}</span>
   </div>
+</div>
+
+<div class="max-w-full flex mt-5" *ngIf="todo$ | async as todo">
+  <span class="mx-auto font-bold">
+    {{ todo.title | uppercase }}
+  </span>
 </div>

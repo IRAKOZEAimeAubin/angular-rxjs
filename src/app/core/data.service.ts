@@ -1,6 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
+  BehaviorSubject,
   Observable,
   catchError,
   combineLatest,
@@ -35,6 +36,9 @@ export class DataService {
     return 'public';
   }
 
+  private todoSelectedSubject = new BehaviorSubject<string>('');
+  todoSelectedAction$ = this.todoSelectedSubject.asObservable();
+
   allUsers$ = this.http.get<User[]>('http://localhost:8000/users/').pipe(
     tap((data) => console.log('Users:', data)),
     catchError(this.handleError)
@@ -58,4 +62,18 @@ export class DataService {
       }))
     )
   );
+
+  selectedTodo$ = combineLatest([
+    this.todosWithUsers$,
+    this.todoSelectedAction$,
+  ]).pipe(
+    map(([todos, selectedTodoId]) =>
+      todos.find((todo) => todo.todoId === selectedTodoId)
+    ),
+    tap((todo) => console.log('Selected Todo:', todo))
+  );
+
+  selectedTodoChanged(selectedTodoId: string) {
+    this.todoSelectedSubject.next(selectedTodoId);
+  }
 }
