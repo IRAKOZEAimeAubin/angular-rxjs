@@ -22,7 +22,7 @@
     class="mx-auto shadow hover:shadow-lg rounded p-3 w-[400px] text-center"
     *ngFor="let todo of allTodos"
     [ngClass]="todo.status.toLowerCase()"
-    (click)="onSelectedSingle(todo.todoId)"
+    (click)="onSelectedSingle(todo.todoId!)"
   >
     <h1 class="font-bold text-lg">{{ todo.title }}</h1>
     <span class="text-xs font-semibold bg-blue-200 p-[2px] rounded"
@@ -31,10 +31,18 @@
     <p class="text-sm">{{ todo.description }}</p>
     <span class="text-xs">Last updated at: {{ todo.updatedAt }}</span>
   </div>
+
+  <div class="mx-auto">
+    <button type="button" class="uppercase tracking-wider font-bold text-white bg-blue-400 px-2 py-1 rounded shadow-sm shadow-blue-800 hover:bg-blue-500 hover:shadow-none" (click)="onAdd()">Add Todo</button>
+  </div>
 </div>
 
 <div class="max-w-full flex mt-5" *ngIf="todo$ | async as todo">
   <span class="mx-auto font-bold">
     {{ todo.title | uppercase }}
   </span>
+</div>
+
+<div *ngIf="errorMessage$ | async as errorMessage">
+  {{ errorMessage.status }}
 </div>

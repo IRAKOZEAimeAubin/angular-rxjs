@@ -11,6 +11,7 @@ import {
 } from 'rxjs';
 import { DataService } from '../core/data.service';
 import { TodoError } from 'src/types/todoError';
+import { ErrorInterface } from 'src/types/error';
 
 @Component({
   selector: 'ra-dashboard',
@@ -34,23 +35,25 @@ export class DashboardComponent {
       )
     ),
     catchError((err) => {
-      this.errorMessage = err;
+      this.errorMessageSubject.next(err);
       return EMPTY;
     })
   );
 
-  errorMessage = new TodoError();
+  // errorMessage = new TodoError();
+  private errorMessageSubject = new Subject<ErrorInterface>();
+  errorMessage$ = this.errorMessageSubject.asObservable();
 
   allUsers$ = this.dataService.allUsers$.pipe(
     catchError((err) => {
-      this.errorMessage = err;
+      this.errorMessageSubject.next(err);
       return EMPTY;
     })
   );
 
   todo$ = this.dataService.selectedTodo$.pipe(
     catchError((err) => {
-      this.errorMessage = err;
+      this.errorMessageSubject.next(err);
       return EMPTY;
     })
   );
@@ -61,6 +64,10 @@ export class DashboardComponent {
 
   onSelectedSingle(id: string) {
     this.dataService.selectedTodoChanged(id);
+  }
+
+  onAdd(): void {
+    this.dataService.addTodo();
   }
 
   constructor(private dataService: DataService) {}
